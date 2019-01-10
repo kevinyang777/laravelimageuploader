@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 
 use App\file;
 use DB;
+use Storage;
+
 
 class FileController extends Controller
 {
     public function index()
     {
         return file::all();
-        // $files = DB::select(DB::raw('select * from files'));
-        // return $files;
     }
 
     public function show(file $file)
@@ -21,15 +21,20 @@ class FileController extends Controller
         return $file;
     }
 
+    public function upload(Request $request,$file)
+    {
+        $image = $request->file('image');
+        $fileName = $file. '.' . $image->getClientOriginalExtension();
+        Storage::disk('local')->put($fileName, file_get_contents($image));
+        return response()->json('success', 200);
+    }
+
     public function store(Request $request)
     {
-        // $file = file::create($request->all());
-
-        // return response()->json($file, 201);
         $check = DB::table('files')->where('username', $request['username'])->first();;
         if($check){
             $res="false";
-        }else{
+        } else{
             $res="true";
         }
         $insert = DB::table('files')->insert(
