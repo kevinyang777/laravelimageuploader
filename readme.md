@@ -1,7 +1,7 @@
 
 
 ## How to Run
-
+requirement: php, mysql,composer
 1. Please config your mysql credentials 
 2. Please run the latest migration
 3. Optional: you can run seeder for demo data
